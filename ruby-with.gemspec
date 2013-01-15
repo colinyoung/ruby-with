@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Ruby::With::VERSION
   gem.authors       = ["Colin Young"]
   gem.email         = ["me@colinyoung.com"]
-  gem.description   = %q{Class_exec for all ruby objects}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Seamlessly make any object the current context}
+  gem.summary       = %q{A hack of instance_exec that I feel is missing from ruby}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
