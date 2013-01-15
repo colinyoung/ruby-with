@@ -41,15 +41,34 @@ end
 
 ![](http://i.imgur.com/0FIK5.png)
 
-To use, just call `with`:
+To access object variables without typing `self`, just call `with` on that object:
 
-```
+```ruby
 users.each do |user|
   with user do
     puts name
   end
 end
 ```
+
+To SET the object's variables, use the usual `self.attribute = val` method, or one 
+of two provided methods that can make that far less annoying:
+
+```ruby
+with user do
+  set name: 'Leo'
+  puts name # => Leo
+  
+  # OR
+  self <= { name: 'CJ' }
+  
+  # Of course you can still do it the original way
+  # (which is exactly what the above two methods do behind-the-scenes)
+  self.name = "Jed"
+end
+```
+
+### Use it!
 
 You have two options to use ruby-with in your app:
 
