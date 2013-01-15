@@ -1,29 +1,96 @@
-# Ruby::With
+## A `with` keyword for Ruby
+#### (That has nothing to do with python's `with` keyword)
 
-TODO: Write a gem description
+`with` lets you seamlessly make any object the current context.
 
-## Installation
+### Why
 
-Add this line to your application's Gemfile:
+I'm tired of doing this:
 
-    gem 'ruby-with'
+```
+users.each do |user|
+  puts user.name
+end
+```
 
-And then execute:
+Or things like this:
 
-    $ bundle
+```
+Project.new.tap do |proj|
+  proj.name = "hello"
+  proj.owner = owner
+  proj.created_at = Time.now
+end
+```
 
-Or install it yourself as:
+So I made it way more -- well, Ruby-ish.
 
-    $ gem install ruby-with
+### The `with` keyword
 
-## Usage
+![](http://i.imgur.com/5s6S3.png)
 
-TODO: Write usage instructions here
+To use, just call `with`:
 
-## Contributing
+```
+users.each do |user|
+  with user do
+    puts name
+  end
+end
+```
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+You have two options to use ruby-with in your app:
+
+1. Keyword-level integration (make `with` available everywhere, because why not?):
+
+   ```
+   # In your Gemfile
+   gem 'ruby-with', require: 'ruby-with/global'
+   ```
+2. On a class-by-class basis:
+   
+   ```
+   # In your Gemfile
+   gem 'ruby-with'
+   
+   # MyClass
+   class MyClass
+     include RubyWith::With
+   end
+   ```
+   
+### Advanced
+
+You can call `with` with an optional second argument (a Hash) that will be `set` before all your code is run.
+
+```
+with Dog.new, name: 'Rue' do
+  puts name # => Rue
+end
+```
+
+Or, if you need access to your current context (kind of like inverting your existing code), you can do this:
+
+```
+class Dog < Pet
+
+  belongs_to :owner
+
+  attr_accessor :name
+  
+  def initialize(name)
+    self.name = name
+  
+	with owner do |dog|
+	  dog.name = "#{dog.name} #{last_name}" # => looks like 'DogName OwnerLastName'
+	end
+  end
+end
+
+```
+
+It's kind of a contrived example, but I'm sure it'll come in handy.
+
+### Changelog
+
+* **Release 0.2:** Added setters and new documentation.
