@@ -1,6 +1,8 @@
 ## A `with` keyword for Ruby
 #### (That has nothing to do with python's `with` keyword)
 
+[![Build Status](https://travis-ci.org/colinyoung/ruby-with.png?branch=master)](undefined)
+
 `with` lets you seamlessly make any object the current context.
 
 ### Why
