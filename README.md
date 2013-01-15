@@ -7,7 +7,7 @@
 
 I'm tired of doing this:
 
-```
+```ruby
 users.each do |user|
   puts user.name
 end
@@ -15,7 +15,7 @@ end
 
 Or things like this:
 
-```
+```ruby
 Project.new.tap do |proj|
   proj.name = "hello"
   proj.owner = owner
@@ -25,9 +25,19 @@ end
 
 So I made it way more -- well, Ruby-ish.
 
+```ruby
+with Project.new do
+  puts "A project called #{name}
+  		was started by #{owner}
+  		at #{created_at}."
+end
+```
+
 ### The `with` keyword
 
-![](http://i.imgur.com/5s6S3.png)
+> Note: Ruby 1.9x only for now!
+
+![](http://i.imgur.com/0FIK5.png)
 
 To use, just call `with`:
 
@@ -43,13 +53,13 @@ You have two options to use ruby-with in your app:
 
 1. Keyword-level integration (make `with` available everywhere, because why not?):
 
-   ```
+   ```ruby
    # In your Gemfile
    gem 'ruby-with', require: 'ruby-with/global'
    ```
 2. On a class-by-class basis:
    
-   ```
+   ```ruby
    # In your Gemfile
    gem 'ruby-with'
    
@@ -63,7 +73,7 @@ You have two options to use ruby-with in your app:
 
 You can call `with` with an optional second argument (a Hash) that will be `set` before all your code is run.
 
-```
+```ruby
 with Dog.new, name: 'Rue' do
   puts name # => Rue
 end
@@ -71,7 +81,7 @@ end
 
 Or, if you need access to your current context (kind of like inverting your existing code), you can do this:
 
-```
+```ruby
 class Dog < Pet
 
   belongs_to :owner
