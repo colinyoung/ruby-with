@@ -18,8 +18,8 @@ module With
     context.instance_exec(self, &block)
     
     class << context
-      remove_method :set
-      remove_method :<=
+      remove_method :set if method_defined? :set
+      remove_method :<= if method_defined? :<=
     end
   end
   
